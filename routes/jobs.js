@@ -68,11 +68,17 @@ router.delete('/:id', adminRequired, async function(req, res, next) {
 });
 
 
-/** POST /[id]/apply  {state} => {message: state} */
+/** POST /[id]/apply  {state} => {message: state} 
+ * 
+ * when we send a POST request to the job apply route, we can pass in a string of text about the state of the application, and if we don't pass anything specifically then it's going to be set to "applied" initially
+ * 
+ * 
+*/
 
 router.post('/:id/apply', authRequired, async function(req, res, next) {
   try {
     const state = req.body.state || 'applied';
+    // Job.apply() method from models/job.js is called to find and check if the job exists, and then create an application and associate it with the job in the database.
     await Job.apply(req.params.id, res.locals.username.state);
     return res.json( { message: state })
   } catch(err) {

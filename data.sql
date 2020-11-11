@@ -16,3 +16,11 @@ CREATE TABLE jobs(
     equity FLOAT CHECK(equity <= 1.0),
     company_handle TEXT NOT NULL REFERENCES companies ON DELETE CASCADE
 );
+
+CREATE TABLE applications(
+    username TEXT NOT NULL REFERENCES users ON DELETE CASCADE,
+    job_id INTEGER  REFERENCES jobs ON DELETE CASCADE,
+    state TEXT,
+    created_at TIMESTAMP DEFAULT current_timestamp,
+    PRIMARY KEY(username, job_id)
+);
