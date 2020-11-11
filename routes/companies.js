@@ -50,6 +50,7 @@ router.post('/', adminRequired, async function(req, res, next) {
 
 router.patch('/:handle', adminRequired, async function(req, res, next) {
   try {
+    //the handle would the alternative to an id, something added upon creation that cannot be changed.
     if ('handle' in req.body ) {
       throw new ExpressError('You are not allowed to change the handle', 400)
     }
