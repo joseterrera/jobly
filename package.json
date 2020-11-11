@@ -20,6 +20,7 @@
   "homepage": "https://github.com/joseterrera/jobly#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonschema": "^1.4.0",
     "jsonwebtoken": "^8.5.1",

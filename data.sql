@@ -6,6 +6,9 @@ CREATE TABLE companies(
     logo_url TEXT
 );
 
+-- The jobs table has a one to many relationship with companies which means there is a foreign key in the jobs table that references the companies table. In this relationship, one company has many jobs, and each job belongs to a single company.
+-- When a company is deleted, all jobs in that company are deleted as well.
+
 CREATE TABLE jobs(
     id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
