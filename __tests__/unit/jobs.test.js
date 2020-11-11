@@ -81,5 +81,94 @@ describe("GET /jobs", async function () {
 });
 
 
+describe("GET /jobs/:id", async function () {
+  test("Gets a single a job", async function () {
+    const response = await request(app).get(`/jobs/${TEST_DATA.jobId}`).send({_token: TEST_DATA.userToken});
+    expect(response.body.job).toHaveProperty("id");
+
+    expect(response.body.job.id).toBe(TEST_DATA.jobId);
+  });
+
+  test("Responds with a 404 if it cannot find the job in question", async function () {
+    const response = await request(app)
+        .get(`/jobs/999`).send({_token: TEST_DATA.userToken})
+    expect(response.statusCode).toBe(404);
+  });
+});
+
+
+describe("PATCH /jobs/:id", async function () {
+  test("Updates a single a job's title", async function () {
+    const response = await request(app)
+        .patch(`/jobs/${TEST_DATA.jobId}`)
+        .send({title: "xkcd", _token: TEST_DATA.userToken});
+    expect(response.body.job).toHaveProperty("id");
+
+    expect(response.body.job.title).toBe("xkcd");
+    expect(response.body.job.id).not.toBe(null);
+  });
+
+  test("Updates a single a job's equity", async function () {
+    const response = await request(app)
+        .patch(`/jobs/${TEST_DATA.jobId}`)
+        .send({
+          _token: TEST_DATA.userToken, equity: 0.5
+        });
+    expect(response.body.job).toHaveProperty("id");
+  });
+
+  test("Prevents a bad job update", async function () {
+    const response = await request(app)
+        .patch(`/jobs/${TEST_DATA.jobId}`)
+        .send({
+          _token: TEST_DATA.userToken, cactus: false
+        });
+    expect(response.statusCode).toBe(400);
+  });
+
+  test("Responds with a 404 if it cannot find the job in question", async function () {
+    // delete job first
+    await request(app)
+        .delete(`/jobs/${TEST_DATA.jobId}`).send({
+          _token: TEST_DATA.userToken, title: "instructor"
+        });
+    const response = await request(app)
+        .patch(`/jobs/${TEST_DATA.jobId}`)
+        .send({
+          _token: TEST_DATA.userToken, title: "instructor"
+        });
+    expect(response.statusCode).toBe(404);
+  });
+});
+
+
+describe("DELETE /jobs/:id", async function () {
+  test("Deletes a single a job", async function () {
+    const response = await request(app)
+        .delete(`/jobs/${TEST_DATA.jobId}`).send({_token: TEST_DATA.userToken})
+    expect(response.body).toEqual({message: "Job deleted"});
+  });
+
+  test("Responds with a 404 if it cannot find the job in question", async function () {
+    // delete job first
+    await request(app)
+        .delete(`/jobs/${TEST_DATA.jobId}`).send({_token: TEST_DATA.userToken})
+    const response = await request(app)
+        .delete(`/jobs/${TEST_DATA.jobId}`).send({_token: TEST_DATA.userToken})
+    expect(response.statusCode).toBe(404);
+  });
+});
+
+
+afterEach(async function () {
+  await afterEachHook();
+});
+
+
+afterAll(async function () {
+  await afterAllHook();
+});
+
+
 
 
