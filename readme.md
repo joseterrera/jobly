@@ -16,3 +16,11 @@ The RETURNING clause allows you to retrieve values of columns (and expressions b
 
 schemas
 .Basically, the idea is to specify the data that we expect to be received from our request, to verify that correct JSON data was passed that we can then further use in our route. Keep in mind about any discrepancies when comparing it to the solution - for example, you should also define the "_token" field in the JSON data that you are expecting to be sent to the backend route (that's part of the authentication of the user).
+
+
+const {
+  TEST_DATA,
+  afterEachHook,
+  beforeEachHook,
+  afterAllHook
+} = require("./config");
