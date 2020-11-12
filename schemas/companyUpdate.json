@@ -13,7 +13,7 @@
       "default": "",
       "minLength": 1,
       "maxLength": 55,
-      "examples": ["Rithm"]
+      "examples": ["Nike"]
     },
     "handle": {
       "$id": "/properties/handle",
@@ -22,7 +22,7 @@
       "default": "",
       "minLength": 1,
       "maxLength": 55,
-      "examples": ["rithm"]
+      "examples": ["Nike"]
     },
     "logo": {
       "$id": "/properties/logo",
