@@ -66,3 +66,17 @@ static async findAll(data) {
     return job;
 
 }
+
+  /** Create a job (from data), update db, return new job data. */
+  static async create(data) {
+    const result = await db.query(
+      `INSERT INTO jobs (title, salary, equity, company_handle) 
+        VALUES ($1, $2, $3, $4) 
+        RETURNING id, title, salary, equity, company_handle`,
+      [data.title, data.salary, data.equity, data.company_handle]
+    );
+
+    return result.rows[0];
+  }
+
+}
