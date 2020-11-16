@@ -3,14 +3,14 @@ const bcrypt = require("bcrypt");
 const partialUpdate = require("../helpers/partialUpdate");
 const ExpressError = require("../helpers/ExpressError");
 
-
 const BCRYPT_WORK_FACTOR = 10;
 
-
 /** Related functions for users. */
+
 class User {
-    /** authenticate user with username, password. Returns user or throws err. */
-    static async authenticate(data) {
+  /** authenticate user with username, password. Returns user or throws err. */
+
+  static async authenticate(data) {
     // try to find the user first
     const result = await db.query(
       `SELECT username, 
@@ -34,8 +34,8 @@ class User {
         return user;
       }
     }
-    throw ExpressError("Invalid Password", 401);
 
+    throw ExpressError("Invalid Password", 401);
   }
 
   /** Register user with data. Returns new user data. */
@@ -54,6 +54,7 @@ class User {
         400
       );
     }
+
     const hashedPassword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
 
     const result = await db.query(
@@ -74,10 +75,9 @@ class User {
     return result.rows[0];
   }
 
+  /** Find all users. */
 
-   /** Find all users. */
-
-   static async findAll() {
+  static async findAll() {
     const result = await db.query(
       `SELECT username, first_name, last_name, email
         FROM users
@@ -87,9 +87,9 @@ class User {
     return result.rows;
   }
 
-   /** Given a username, return data about user. */
+  /** Given a username, return data about user. */
 
-   static async findOne(username) {
+  static async findOne(username) {
     const userRes = await db.query(
       `SELECT username, first_name, last_name, photo_url 
         FROM users 
@@ -113,7 +113,7 @@ class User {
 
     user.jobs = userJobsRes.rows;
     return user;
-}
+  }
 
   /** Update user data with `data`.
    *
@@ -128,6 +128,7 @@ class User {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     }
+
     let { query, values } = partialUpdate("users", data, "username", username);
 
     const result = await db.query(query, values);
@@ -144,6 +145,7 @@ class User {
   }
 
   /** Delete given user from database; returns undefined. */
+
   static async remove(username) {
     let result = await db.query(
       `DELETE FROM users 
@@ -156,7 +158,6 @@ class User {
       throw new ExpressError(`There exists no user '${username}'`, 404);
     }
   }
-
 }
 
 module.exports = User;

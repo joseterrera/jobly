@@ -2,16 +2,17 @@ const db = require("../db");
 const ExpressError = require("../helpers/ExpressError");
 const sqlForPartialUpdate = require("../helpers/partialUpdate");
 
-/** Related functions for jobs. */
+/** Related functions for companies. */
 
 class Job {
-  /* Find all jobs ( can filter on terms in data ) */
-static async findAll(data) {
-  let baseQuery = "SELECT id, title, company_handle FROM jobs";
-  let whereExpressions = [];
-  let queryValues = [];
+  /** Find all jobs (can filter on terms in data). */
 
-   // For each possible search term, add to whereExpressions and
+  static async findAll(data) {
+    let baseQuery = "SELECT id, title, company_handle FROM jobs";
+    let whereExpressions = [];
+    let queryValues = [];
+
+    // For each possible search term, add to whereExpressions and
     // queryValues so we can generate the right SQL
 
     if (data.min_salary) {
@@ -38,9 +39,10 @@ static async findAll(data) {
     let finalQuery = baseQuery + whereExpressions.join(" AND ");
     const jobsRes = await db.query(finalQuery, queryValues);
     return jobsRes.rows;
+  }
 
-}
   /** Given a job id, return data about job. */
+
   static async findOne(id) {
     const jobRes = await db.query(
       `SELECT id, title, salary, equity, company_handle 
@@ -48,6 +50,7 @@ static async findAll(data) {
         WHERE id = $1`,
       [id]
     );
+
     const job = jobRes.rows[0];
 
     if (!job) {
@@ -60,14 +63,14 @@ static async findAll(data) {
         WHERE handle = $1`,
       [job.company_handle]
     );
-    
+
     job.company = companiesRes.rows[0];
 
     return job;
-
-}
+  }
 
   /** Create a job (from data), update db, return new job data. */
+
   static async create(data) {
     const result = await db.query(
       `INSERT INTO jobs (title, salary, equity, company_handle) 
@@ -79,7 +82,7 @@ static async findAll(data) {
     return result.rows[0];
   }
 
-    /** Update job data with `data`.
+  /** Update job data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain
    * all the fields; this only changes provided ones.
@@ -101,9 +104,9 @@ static async findAll(data) {
     return job;
   }
 
-   /** Delete given job from database; returns undefined. */
+  /** Delete given job from database; returns undefined. */
 
-   static async remove(id) {
+  static async remove(id) {
     const result = await db.query(
       `DELETE FROM jobs 
         WHERE id = $1 
@@ -116,22 +119,26 @@ static async findAll(data) {
     }
   }
 
-  /** Apply for job: update db, returns undefined */
+  /** Apply for job: update db, returns undefined. */
 
   static async apply(id, username, state) {
     const result = await db.query(
-      `SELECT id
-       FROM jobs
-       WHERE id = $1`, [id]
+      `SELECT id 
+        FROM jobs 
+        WHERE id = $1`,
+      [id]
     );
-    if(result.rows.length === 0 ) {
-      throw ExpressError(`There exists no job '${id}'`, 404);
+
+    if (result.rows.length === 0) {
+      throw ExpressError(`There exists no job '${id}`, 404);
     }
 
-    await db.query(`INSERT INTO applications (job_id, username, state VALUES ($1, $2, $3)`, 
-    [id, username, state]);
+    await db.query(
+      `INSERT INTO applications (job_id, username, state)
+        VALUES ($1, $2, $3)`,
+      [id, username, state]
+    );
   }
-
 }
 
 module.exports = Job;
