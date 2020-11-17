@@ -40,3 +40,63 @@ const BCRYPT_WORK_FACTOR = 10;
     return user;
 
     check partial update on all models
+
+
+
+    USERS
+
+find all
+how do you test on insomnia that there is authrequired?
+http://localhost:3000/ GET
+
+http://localhost:3000/:username GET
+
+
+http://localhost:3000/ POST
+
+
+http://localhost:3000/:username PATCH
+
+
+http://localhost:3000/:username DELETE
+
+
+
+JOB
+
+http://localhost:3000/ GET
+
+http://localhost:3000/ POST
+
+http://localhost:3000/:id PATCH
+
+http://localhost:3000/:id DELETE
+
+
+AUTH
+http://localhost:3000/login
+
+COMPANIES
+
+http://localhost:3000/ GET
+
+http://localhost:3000/:handle GET
+
+http://localhost:3000/ POST
+
+http://localhost:3000/:handle PATCH
+
+http://localhost:3000/:handle DELETE
+
+
+{
+
+"username": "test",
+"password": "testing123",
+"first_name": "Jose",
+"last_name": "Testing",
+"email": "test@yahoo.com",
+"photo_url":  "https://picsum.photos/200/300",
+"is_admin": true
+
+}
