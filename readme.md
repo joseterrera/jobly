@@ -100,3 +100,26 @@ http://localhost:3000/:handle DELETE
 "is_admin": true
 
 }
+
+
+
+
+user registers:
+POST http://localhost:3001/users
+{
+	"username" : "whiskey",
+  "first_name": "Whiskey",
+  "password": "foo123",
+  "last_name": "Lane",
+  "email": "whiskey@rithmschool.com"
+}
+
+
+gets a token:
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkiLCJpYXQiOjE2MDU2NTc0MDZ9.8YoPbTsLsHEFrJUkgIKtOL5RFAqcln62mAgkgyNQJ5Y"
+}
+
+GET http://localhost:3001/users
+

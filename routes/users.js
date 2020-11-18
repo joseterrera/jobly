@@ -15,41 +15,40 @@ const router = express.Router();
 router.get('/', authRequired, async function(req, res, next) {
   try {
     const users = await User.findAll();
-    return res.json({users});
-  } catch(err) {
+    return res.json({ users });
+  } catch (err) {
     return next(err);
   }
 });
 
-
-/** GET /[username] =  { user: user } */
+/** GET /[username] => {user: user} */
 
 router.get('/:username', authRequired, async function(req, res, next) {
   try {
     const user = await User.findOne(req.params.username);
-    return res.json( { user });
-  } catch(err) {
+    return res.json({ user });
+  } catch (err) {
     return next(err);
   }
 });
 
-/** POST / {userdata}  => {token: token } */
+/** POST / {userdata}  => {token: token} */
 
 router.post('/', async function(req, res, next) {
   try {
-    const validation = validate(req.body, userNewSchema)
+    const validation = validate(req.body, userNewSchema);
+
     if (!validation.valid) {
-      throw new ExpressError(validation.errors.map( e => e.stack), 400);
+      throw new ExpressError(validation.errors.map(e => e.stack), 400);
     }
 
     const newUser = await User.register(req.body);
     const token = createToken(newUser);
-    return res.status(201).json( { token });
-  } catch(err) {
+    return res.status(201).json({ token });
+  } catch (err) {
     return next(err);
   }
 });
-
 
 /** PATCH /[handle] {userData} => {user: updatedUser} */
 
@@ -83,3 +82,5 @@ router.delete('/:username', ensureCorrectUser, async function(req, res, next) {
     return next(err);
   }
 });
+
+module.exports = router;

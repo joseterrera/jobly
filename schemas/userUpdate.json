@@ -19,7 +19,7 @@
       "default": "",
       "minLength": 1,
       "maxLength": 55,
-      "examples": ["Michael"]
+      "examples": ["Josefina"]
     },
     "last_name": {
       "$id": "/properties/last_name",
@@ -54,7 +54,7 @@
       "maxLength": 60,
       "title": "The Email Schema ",
       "default": "",
-      "examples": ["michael@rithmschool.com"]
+      "examples": ["jose@yahoo.com"]
     },
     "_token": {
       "$id": "/properties/token",
