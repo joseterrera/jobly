@@ -15,6 +15,7 @@ beforeEach(async () => {
   await beforeEachHook(TEST_DATA);
 });
 
+
 describe("POST /jobs", async function () {
   test("Creates a new job", async function () {
     const response = await request(app)
@@ -63,7 +64,8 @@ describe("GET /jobs", async function () {
           company_handle: TEST_DATA.currentCompany.handle,
           _token: TEST_DATA.userToken
         });
-  await request(app)
+
+    await request(app)
         .post(`/jobs`)
         .send({
           title: "Web Dev",
@@ -71,7 +73,8 @@ describe("GET /jobs", async function () {
           company_handle: TEST_DATA.currentCompany.handle,
           _token: TEST_DATA.userToken
         });
-  const response = await request(app)
+
+    const response = await request(app)
         .get("/jobs?search=web+dev")
         .send({_token: TEST_DATA.userToken});
     expect(response.body.jobs).toHaveLength(1);
@@ -149,6 +152,7 @@ describe("DELETE /jobs/:id", async function () {
     expect(response.body).toEqual({message: "Job deleted"});
   });
 
+
   test("Responds with a 404 if it cannot find the job in question", async function () {
     // delete job first
     await request(app)
@@ -168,7 +172,3 @@ afterEach(async function () {
 afterAll(async function () {
   await afterAllHook();
 });
-
-
-
-
