@@ -2,6 +2,17 @@
 
 This application has similar functionality to linkedin but at a smaller scale using express, json schema, jsonwebtoken, and pg. Some of these are explained below.
 
+### To Run The Application
+
+1. Run `npm install` to add all the necessary libraries.
+2. On the terminal type psql and then `CREATE DATABASE jobly;`
+3. After that, also create one database for tests`CREATE DATABASE jobly_test;`
+4. Exit psql and then type `psql jobly < data.sql` to import the tables.
+5. Repeat the same step for the tests `psql jobly_test < data.sql`.
+6. Seed the jobly database to add an admin user and some companies.
+7. Run `npm start` or `npm dev` if you want to use nodemon and make changes.
+8. To run tests type `npm test`.
+
 
 ### Libraries we use on this application:
 
@@ -65,16 +76,7 @@ The RETURNING clause allows you to retrieve values of columns (and expressions b
 Basically, the idea is to specify the data that we expect to be received from our request, to verify that correct JSON data was passed that we can then further use in our route.
 
 
-### To Run The Application
 
-1. Run `npm install` to add all the necessary libraries.
-2. On the terminal type psql and then `CREATE DATABASE jobly;`
-3. After that, also create one database for tests`CREATE DATABASE jobly_test;`
-4. Exit psql and then type `psql jobly < data.sql` to import the tables.
-5. Repeat the same step for the tests `psql jobly_test < data.sql`.
-6. Seed the jobly database to add an admin user and some companies.
-7. Run `npm start` or `npm dev` if you want to use nodemon and make changes.
-8. To run tests type `npm test`.
 
 
 ### Use Cases 
