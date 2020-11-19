@@ -674,43 +674,6 @@ const BCRYPT_WORK_FACTOR = 10;
 
 
 
-    USERS
-
-find all
-how do you test on insomnia that there is authrequired?
-http://localhost:3000/ GET
-
-http://localhost:3000/:username GET
-
-
-http://localhost:3000/ POST
-
-
-http://localhost:3000/:username PATCH
-
-
-http://localhost:3000/:username DELETE
-
-
-
-
-
-
-AUTH
-http://localhost:3000/login
-
-COMPANIES
-
-http://localhost:3000/ GET
-
-http://localhost:3000/:handle GET
-
-http://localhost:3000/ POST
-
-http://localhost:3000/:handle PATCH
-
-http://localhost:3000/:handle DELETE
-
 
 
 
