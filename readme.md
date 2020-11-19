@@ -8,9 +8,13 @@ This application has similar functionality to linkedin but at a smaller scale us
 ### **pg:**
 
 A node package to connect and execute SQL queries from Node.
+To prevent against SQL injection we need to sanitize our inputs. We do so using parametrized queries ($1, $2, etc)
+The database realizes that if there is more than one value, it will not add it as $1.
 
 
-**Bcrypt:** This is a reliable hashing algorithm.
+### **Bcrypt:** 
+
+This is a reliable hashing algorithm.
 The way it works is we tell bcrypt how many rounds of hashing we want to use. The larger the number the longer it will take to hash it.
 
 Bcrypt has basic methods, such as compare, hash. In our app, the request.body will include a username and password, which we will need to hash, using the work factor we specified, and save to the DB.
@@ -672,6 +676,21 @@ const BCRYPT_WORK_FACTOR = 10;
 
 
 
+sqlForPartialUpdate will take 4 parameters and will return an object containing a DB query as a string and array wit the values to be updated. The SET command is used with UPDATE to specify which columns and values that should be updated in a table.
 
+implementation inside of models, for instance:
+```js
+ let { query, values } = sqlForPartialUpdate(
+      "companies",
+      data,
+      "handle",
+      handle
+    );
+
+    const result = await db.query(query, values);
+    const company = result.rows[0];
+
+
+```
 
 
