@@ -85,3 +85,6 @@ module.exports = {
   TEST_DATA,
   beforeEachHook
 };
+
+// jest.setup.js
+jest.setTimeout(30000)
