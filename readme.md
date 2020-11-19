@@ -1,3 +1,12 @@
+### Jobly
+
+This application has similar functionality to linkedin but at a smaller scale.
+
+### To Run The Application
+
+
+
+
 add gitignore
 npm init
 npm install express bcypt json schema, jsonwebtoken morgan pg
@@ -13,6 +22,10 @@ create routes
 cumulative project
 
 Libraries we use on this application:
+
+pg:
+A node package to connect and execute SQL queries from Node.
+
 
 bcrypt: This is a reliable hashing algorithm.
 The way it works is we tell bcrypt how many rounds of hashing we want to use. The larger the number the longer it will take to hash it.
@@ -160,19 +173,372 @@ http://localhost:3000/:handle DELETE
 user registers:
 POST http://localhost:3001/users
 {
-	"username" : "whiskey",
-  "first_name": "Whiskey",
+	"username" : "whiskey22",
+  "first_name": "Whiskey22",
   "password": "foo123",
   "last_name": "Lane",
-  "email": "whiskey@rithmschool.com"
+  "email": "whiskey22@rithmschool.com"
 }
 
 
-gets a token:
+gets a response:
 
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkiLCJpYXQiOjE2MDU2NTc0MDZ9.8YoPbTsLsHEFrJUkgIKtOL5RFAqcln62mAgkgyNQJ5Y"
 }
 
 GET http://localhost:3001/users
+and adjust token to _token
 
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA"
+}
+
+response will be:
+```json
+{
+  "users": [
+    {
+      "username": "whiskey",
+      "first_name": "Whiskey",
+      "last_name": "Lane",
+      "email": "whiskey@rithmschool.com"
+    },
+    {
+      "username": "whiskey1",
+      "first_name": "Whiskey1",
+      "last_name": "Lane1",
+      "email": "whiskey1@rithmschool.com"
+    },
+    {
+      "username": "whiskey2",
+      "first_name": "Whiskey2",
+      "last_name": "Lane1",
+      "email": "whiskey2@rithmschool.com"
+    },
+    {
+      "username": "whiskey22",
+      "first_name": "Whiskey22",
+      "last_name": "Lane1",
+      "email": "whiskey22@rithmschool.com"
+    }
+  ]
+}
+```
+
+
+
+GET http://localhost:3000/users/whiskey2
+whiskey22 can see every user's profile page with their own validation token:
+with input:
+```json
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA"
+}
+```
+response:
+
+```json
+{
+  "user": {
+    "username": "whiskey2",
+    "first_name": "Whiskey2",
+    "last_name": "Lane1",
+    "photo_url": null,
+    "jobs": []
+  }
+}
+```
+
+
+
+
+http://localhost:3000/:username PATCH
+whiskey 22 can patch only their own info, not all details. Such as, he cannot change the is_admin status.
+
+```json
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA",
+"first_name": "new_name again",
+"is_admin": true
+}
+
+```
+
+```json
+{
+  "status": 400,
+  "message": "You are not allowed to change username or is_admin properties."
+}
+```
+
+correct input:
+
+```json
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA",
+"first_name": "new_name"
+}
+```
+
+output:
+
+```json
+{
+  "user": {
+    "username": "whiskey22",
+    "first_name": "new_name",
+    "last_name": "Lane1",
+    "email": "whiskey22@rithmschool.com",
+    "photo_url": null
+  }
+}
+```
+
+
+
+
+http://localhost:3000/whiskey22 DELETE
+
+We first need to ensure the user is deleting himself:
+```json
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA"
+}
+```
+
+output: 
+```json
+{
+  "message": "User deleted"
+}
+```
+
+We can then check and it won't appear on the user's list:
+
+GET http://localhost:3000/users/
+
+input:
+```json
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA"
+}
+
+```
+
+output:
+
+```json
+{
+  "users": [
+    {
+      "username": "whiskey",
+      "first_name": "Whiskey",
+      "last_name": "Lane",
+      "email": "whiskey@rithmschool.com"
+    },
+    {
+      "username": "whiskey1",
+      "first_name": "Whiskey1",
+      "last_name": "Lane1",
+      "email": "whiskey1@rithmschool.com"
+    },
+    {
+      "username": "whiskey2",
+      "first_name": "Whiskey2",
+      "last_name": "Lane1",
+      "email": "whiskey2@rithmschool.com"
+    }
+  ]
+}
+```
+
+
+COMPANIES
+
+First, let's create a new user and get a new token:
+Let's login an admin user
+
+POST http://localhost:3000/login
+
+{
+	"username" : "test",
+  "password": "secret"
+	
+}
+
+output:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+
+
+view all companies:
+
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+
+output:
+```json
+{
+  "companies": [
+    {
+      "handle": "apple",
+      "name": "apple inc"
+    },
+    {
+      "handle": "nike",
+      "name": "nike inc"
+    },
+    {
+      "handle": "rithm",
+      "name": "rithm school"
+    },
+    {
+      "handle": "starbucks",
+      "name": "starbucks inc"
+    }
+  ]
+}
+```
+
+
+
+GET http://localhost:3000/nike
+input:
+```json
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+```
+
+output: 
+```json 
+{
+  "company": {
+    "handle": "nike",
+    "name": "nike inc",
+    "num_employees": 200,
+    "description": null,
+    "logo_url": null,
+    "jobs": [
+      {
+        "id": 3,
+        "title": "barista",
+        "salary": 200000,
+        "equity": null
+      }
+    ]
+  }
+}
+
+```
+
+POST http://localhost:3000/companies
+
+input:
+```json
+{
+  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk",
+	"name": "Macys Inc",
+	"handle": "macys"
+}
+```
+
+output:
+```json
+{
+  "company": {
+    "handle": "macys",
+    "name": "Macys Inc",
+    "num_employees": null,
+    "description": null,
+    "logo_url": null
+  }
+}
+```
+
+
+
+PATCH http://localhost:3000/macys
+
+input:
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk",
+	"name": "Macys Incorporated"
+}
+
+```
+
+output:
+```json
+{
+  "company": {
+    "handle": "macys",
+    "name": "Macys Incorporated",
+    "num_employees": null,
+    "description": null,
+    "logo_url": null
+  }
+}
+```
+
+if we try to change the handle, then:
+input: 
+
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk",
+	"name": "Macys Incorporated",
+	"handle": "macysinc"
+}
+```
+
+output:
+
+```json
+{
+  "status": 400,
+  "message": "You are not allowed to change the handle."
+}
+
+```
+
+DELETE http://localhost:3000/macys
+
+input:
+
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+```
+
+output:
+
+```json
+{
+  "message": "Company deleted"
+}
+```
+
+if company doesnt't exist, for instance we try to DELETE macys again, or we even try to GET that route: `http://localhost:3000/companies/macys`, the output will be the same:
+
+input:
+
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+```
+
+output:
+
+```json
+{
+  "status": 404,
+  "message": "There exists no company 'macys"
+}
+```
