@@ -128,15 +128,7 @@ http://localhost:3000/:username DELETE
 
 
 
-JOB
 
-http://localhost:3000/ GET
-
-http://localhost:3000/ POST
-
-http://localhost:3000/:id PATCH
-
-http://localhost:3000/:id DELETE
 
 
 AUTH
@@ -540,5 +532,169 @@ output:
 {
   "status": 404,
   "message": "There exists no company 'macys"
+}
+```
+
+
+JOBS
+
+GET http://localhost:3000/jobs
+
+input:
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+```
+
+output: 
+```json
+{
+  "jobs": [
+    {
+      "id": 1,
+      "title": "engineer",
+      "company_handle": "apple"
+    },
+    {
+      "id": 2,
+      "title": "plumber",
+      "company_handle": "apple"
+    },
+    {
+      "id": 3,
+      "title": "barista",
+      "company_handle": "nike"
+    }
+  ]
+}
+```
+POST http://localhost:3000/jobs
+
+input:
+
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk",
+	"title": "cook",
+	"salary": 100000,
+	"company_handle": "apple",
+	"equity": 0.1
+}
+```
+
+
+
+output
+
+```json
+{
+  "job": {
+    "id": 5,
+    "title": "cook",
+    "salary": 100000,
+    "equity": 0.1,
+    "company_handle": "apple"
+  }
+}
+
+```
+
+Now, we should see this job listed at these 2 different routes:
+GET http://localhost:3000/jobs
+http://localhost:3000/companies/apple
+
+
+Use search functionality to find a job:
+
+GET http://localhost:3000/jobs?search=cook
+
+input --needs authentication:
+
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+```
+
+output:
+
+```json
+{
+  "jobs": [
+    {
+      "id": 5,
+      "title": "cook",
+      "company_handle": "apple"
+    }
+  ]
+}
+```
+
+Get a job by its id, if no job with that id return an error
+
+GET http://localhost:3000/jobs/1
+
+input - needs to authenticate:
+
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+
+```
+output:
+
+```json
+{
+  "job": {
+    "id": 1,
+    "title": "engineer",
+    "salary": 100000,
+    "equity": null,
+    "company_handle": "apple",
+    "company": {
+      "name": "apple inc",
+      "num_employees": 1000,
+      "description": null,
+      "logo_url": null
+    }
+  }
+}
+```
+
+
+
+PATCH http://localhost:3000/jobs/1
+
+Can only update certain fields. Cannot change the id, as that would display an error
+
+input: 
+
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk",
+	"salary": 200000,
+	"equity": 0.9
+}
+```
+
+
+
+DELETE http://localhost:3000/jobs/5
+Will display an error if job id does not exist. This change will be reflected on the GET route that gets a list of jobs, and will display a 404 on the route for this job.
+
+input -must authenticate
+```json
+{
+ "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
+}
+```
+
+output:
+
+```json
+{
+  "message": "Job deleted"
 }
 ```
