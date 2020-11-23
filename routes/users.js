@@ -10,7 +10,63 @@ const createToken = require('../helpers/createToken');
 
 const router = express.Router();
 
-/** GET / => {users: [user, ...]} */
+
+
+/**
+ * @swagger
+ *
+ * /users:
+ *   get:
+ *     description: View a list of users, use the token you got when you successfuly registered (adjust token to _token).  Add token to the header /users?_token=token_here
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: _token
+ *         description: token that user gets when loggin in
+ *         required: true
+ *         type: string
+ * 
+ *     responses:
+ *       200:
+ *         description: list of users
+ *         examples:
+ * 
+ *          application/json:  {
+    "users": [
+        {
+            "username": "cocacola",
+            "first_name": "cocacola",
+            "last_name": "Lane",
+            "email": "cocacola@yaghoo.com"
+        },
+        {
+            "username": "test",
+            "first_name": null,
+            "last_name": null,
+            "email": null
+        },
+        {
+            "username": "whiskey",
+            "first_name": "Whiskey",
+            "last_name": "Lane",
+            "email": "whiskey@rithmschool.com"
+        },
+        {
+            "username": "whiskey1",
+            "first_name": "Whiskey1",
+            "last_name": "Lane1",
+            "email": "whiskey1@rithmschool.com"
+        },
+        {
+            "username": "whiskey2",
+            "first_name": "Whiskey2",
+            "last_name": "Lane1",
+            "email": "whiskey2@rithmschool.com"
+        }
+    ]
+}
+ */
+
 
 router.get('/', authRequired, async function(req, res, next) {
   try {
