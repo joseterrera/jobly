@@ -77,7 +77,35 @@ router.get('/', authRequired, async function(req, res, next) {
   }
 });
 
-/** GET /[username] => {user: user} */
+/**
+ * @swagger
+ *
+ * /users/{username}:
+ *   get:
+ *     description: View a list of users, use the token you got when you successfuly registered (adjust token to _token).  Add token to the header /users/username?_token=token_here
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: _token
+ *         description: token that user gets when loggin in
+ *         required: true
+ *         type: string
+ * 
+ *     responses:
+ *       200:
+ *         description: list of users
+ *         examples:
+ * 
+ *          application/json:  {
+  "user": {
+    "username": "whiskey2",
+    "first_name": "Whiskey2",
+    "last_name": "Lane1",
+    "photo_url": null,
+    "jobs": []
+  }
+}
+ */
 
 router.get('/:username', authRequired, async function(req, res, next) {
   try {
@@ -88,7 +116,55 @@ router.get('/:username', authRequired, async function(req, res, next) {
   }
 });
 
-/** POST / {userdata}  => {token: token} */
+/**
+ * @swagger
+ *
+ * /login:
+ *   post:
+ *     description: Post a new user
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: username
+ *         description: Username to use for login.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User's password.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         description: User's email.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: first_name
+ *         description: User's first name
+ *         in: formData
+ *         required: false
+ *         type: string
+ *       - name: last_name
+ *         description: User's last name.
+ *         in: formData
+ *         required: false
+ *         type: string 
+ *     responses:
+ *       200:
+ *         description: login
+ *         examples:
+ * 
+ *          application/json:  {
+            "user": {
+              "username": "whiskey2",
+              "first_name": "Whiskey2",
+              "last_name": "Lane1",
+              "photo_url": null,
+              "jobs": []
+            }
+        }
+ */
 
 router.post('/', async function(req, res, next) {
   try {
