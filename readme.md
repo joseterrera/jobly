@@ -112,14 +112,7 @@ output: will give us a token which we can use to view users/jobs/companies, but 
 ```
 
 2. View a list of users, use the token you got when you successfuly registered (adjust token to _token).  
-GET http://localhost:3001/users
-
-input: 
-  ```json
-  {
-    "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA"
-  }
-  ```
+GET http://localhost:3001/users?token=token-here
 
   output:
   ```json
@@ -155,15 +148,8 @@ input:
 
 
 3. View a user's info.   
-GET http://localhost:3000/users/whiskey2
+GET http://localhost:3000/users/whiskey2?token=token_here
 
-
-input: 
-```json
-{
-  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA"
-}
-```
 output:
 
 ```json
@@ -244,15 +230,8 @@ output:
 
 We can then check and it won't appear on the user's list, nor the user's page.
 
-GET http://localhost:3000/users/
+GET http://localhost:3000/users?token=token_here
 
-input:
-```json
-{
-  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IndoaXNrZXkyMiIsImlhdCI6MTYwNTY3MzQ3OH0.RAhH28Qq-onU23ynAn9hLphlitr0dELtTb7ImquwklA"
-}
-
-```
 
 output:
 
@@ -305,14 +284,8 @@ output:
 ```
 
 6. View all companies:
+GET  http://localhost:3000/companies?token=token_here
 
-input: needs to be authenticated
-
-```json
-{
-  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
-}
-```
 
 output:
 ```json
@@ -340,14 +313,9 @@ output:
 
 7. View one company  
 
-GET http://localhost:3000/nike
+GET  http://localhost:3000/companies/nike?token=token_here
 
-input:
-```json
-{
-  "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
-}
-```
+
 output: 
 ```json 
 {
@@ -485,14 +453,8 @@ output:
 JOBS
 
 11. Show a list of all jobs
-GET http://localhost:3000/jobs
+GET http://localhost:3000/jobs?token=token_here
 
-input:
-```json
-{
- "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
-}
-```
 
 output: 
 ```json
@@ -550,21 +512,14 @@ output
 ```
 
 Now, we should see this job listed at these 2 different routes:  
-GET http://localhost:3000/jobs  
-GET http://localhost:3000/companies/apple
+GET http://localhost:3000/jobs?token=token_here
+GET http://localhost:3000/companies/apple?token=token_here
 
 
 13. Use search functionality to find a job:
 
-GET http://localhost:3000/jobs?search=cook
+GET http://localhost:3000/jobs?search=cook&_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk
 
-input --needs authentication:
-
-```json
-{
- "_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNjA1NzQ2MzI0fQ.gcfuwvpFzOdHs3OxZgbmmmaNPbHcEiR4Grw-5gc9JHk"
-}
-```
 
 output:
 
