@@ -26,7 +26,7 @@ afterAll(async function() {
   await afterAllHook();
 });
 
-describe('POST /users', async function() {
+describe('POST /users', function() {
   test('Creates a new user', async function() {
     let dataObj = {
       username: 'whiskey',
@@ -72,7 +72,7 @@ describe('POST /users', async function() {
   });
 });
 
-describe('GET /users', async function() {
+describe('GET /users', function() {
   test('Gets a list of 1 user', async function() {
     const response = await request(app)
       .get('/users')
@@ -83,7 +83,7 @@ describe('GET /users', async function() {
   });
 });
 
-describe('GET /users/:username', async function() {
+describe('GET /users/:username', function() {
   test('Gets a single a user', async function() {
     const response = await request(app)
       .get(`/users/${TEST_DATA.currentUsername}`)
@@ -101,7 +101,7 @@ describe('GET /users/:username', async function() {
   });
 });
 
-describe('PATCH /users/:username', async () => {
+describe('PATCH /users/:username', function() {
   test("Updates a single a user's first_name with a selective update", async function() {
     const response = await request(app)
       .patch(`/users/${TEST_DATA.currentUsername}`)
@@ -149,7 +149,7 @@ describe('PATCH /users/:username', async () => {
   });
 });
 
-describe('DELETE /users/:username', async function() {
+describe('DELETE /users/:username', function() {
   test('Deletes a single a user', async function() {
     const response = await request(app)
       .delete(`/users/${TEST_DATA.currentUsername}`)

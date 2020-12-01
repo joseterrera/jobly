@@ -15,7 +15,7 @@ beforeEach(async function() {
   await beforeEachHook(TEST_DATA);
 });
 
-describe('POST /companies', async function() {
+describe('POST /companies', function() {
   test('Creates a new company', async function() {
     const response = await request(app)
       .post('/companies')
@@ -40,7 +40,7 @@ describe('POST /companies', async function() {
   });
 });
 
-describe('GET /companies', async function() {
+describe('GET /companies', function() {
   test('Gets a list of 1 company', async function() {
     const response = await request(app)
     .get('/companies')
@@ -78,7 +78,7 @@ describe('GET /companies', async function() {
   });
 });
 
-describe('GET /companies/:handle', async function() {
+describe('GET /companies/:handle', function() {
   test('Gets a single a company', async function() {
     const response = await request(app)
       .get(`/companies/${TEST_DATA.currentCompany.handle}`)
@@ -99,7 +99,7 @@ describe('GET /companies/:handle', async function() {
   });
 });
 
-describe('PATCH /companies/:handle', async function() {
+describe('PATCH /companies/:handle', function() {
   test("Updates a single a company's name", async function() {
     const response = await request(app)
       .patch(`/companies/${TEST_DATA.currentCompany.handle}`)
@@ -135,7 +135,7 @@ describe('PATCH /companies/:handle', async function() {
   });
 });
 
-describe('DELETE /companies/:handle', async function() {
+describe('DELETE /companies/:handle', function() {
   test('Deletes a single a company', async function() {
     const response = await request(app)
       .delete(`/companies/${TEST_DATA.currentCompany.handle}`)

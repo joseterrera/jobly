@@ -8,6 +8,12 @@
     "dev": "nodemon server.js",
     "test": "jest -i"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "config.js"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joseterrera/jobly.git"
