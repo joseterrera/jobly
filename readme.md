@@ -454,7 +454,7 @@ output:
 JOBS
 
 11. Show a list of all jobs
-GET http://localhost:3000/jobs?token=token_here
+GET http://localhost:3000/jobs?_token=token_here
 
 
 output: 
