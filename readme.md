@@ -14,6 +14,7 @@ This application has similar functionality to linkedin but at a smaller scale us
 8. To run tests type `npm test`.
 
 
+
 ### Libraries we use on this application:
 
 ### **pg:**
@@ -112,7 +113,7 @@ output: will give us a token which we can use to view users/jobs/companies, but 
 ```
 
 2. View a list of users, use the token you got when you successfuly registered (adjust token to _token).  
-GET http://localhost:3001/users?token=token-here
+GET http://localhost:3001/users?_token=token-here
 
   output:
   ```json
@@ -148,7 +149,7 @@ GET http://localhost:3001/users?token=token-here
 
 
 3. View a user's info.   
-GET http://localhost:3000/users/whiskey2?token=token_here
+GET http://localhost:3000/users/whiskey2?_token=token_here
 
 output:
 
@@ -167,8 +168,8 @@ output:
 
 4. 
 
-http://localhost:3000/:username PATCH
-whiskey 22 can patch only their own info, not all details. Such as, he cannot change the is_admin status.
+http://localhost:3000/users/:username PATCH
+whiskey22 can patch only their own info, not all details. Such as, he cannot change the is_admin status.
 
 ```json
 {
@@ -210,7 +211,7 @@ output:
 ```
 
 4. Delete a particular user  
-DELETE http://localhost:3000/whiskey22
+DELETE http://localhost:3000/users/whiskey22
 
 
 We first need to ensure the user is deleting himself:
@@ -284,7 +285,7 @@ output:
 ```
 
 6. View all companies:
-GET  http://localhost:3000/companies?token=token_here
+GET  http://localhost:3000/companies?_token=token_here
 
 
 output:
@@ -365,7 +366,7 @@ output:
 
 9. Modify a company's field. Not all fields can be modified. Handle, in this case, cannot be modified and will display an error status.
 
-PATCH http://localhost:3000/macys
+PATCH http://localhost:3000/companies/macys
 
 input:
 ```json
@@ -412,7 +413,7 @@ output:
 
 10. Delete a company
 
-DELETE http://localhost:3000/macys
+DELETE http://localhost:3000/companies/macys
 
 input:
 
