@@ -16,13 +16,13 @@ class Job {
     // queryValues so we can generate the right SQL
 
     if (data.min_salary) {
-      queryValues.push(+data.min_employees);
-      whereExpressions.push(`min_salary >= $${queryValues.length}`);
+      queryValues.push(+data.min_salary);
+      whereExpressions.push(`salary >= $${queryValues.length}`);
     }
 
-    if (data.max_equity) {
-      queryValues.push(+data.max_employees);
-      whereExpressions.push(`min_equity >= $${queryValues.length}`);
+    if (data.min_equity) {
+      queryValues.push(+data.min_equity);
+      whereExpressions.push(`equity >= $${queryValues.length}`);
     }
 
     if (data.search) {
