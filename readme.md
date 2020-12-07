@@ -651,4 +651,31 @@ implementation inside of models, for instance:
 
 ```
 
+Jobly is a linkedin like app where users can access different features depending on their admin status. Basically, if you are admin you can add new jobs, make changes, and if you are not admin, you can stil view info, but the abilities are more limited.
+This app is created using express with different libraries.
+We use pg, which a node package to connect and execute sql queries from  node. To prevent sql injection we santize our inputs by using parametrized queries. There are examples of these inside of our models. 
+
+We also use bcrypt which is a hashing algorithm for our passwords, where we store our password hashed. In our app, the request.body will include a username and a password. Using bcrypt, we saved the hashed password to our database. The bcrypt express library also has a compare method that compares the password in the database to the database in the request.body. if it is valid, then user can be authenticated. This methods we can find them inside of our models in user.js.
+
+We also use JWT or json webtojen which is a method that can securely transmit data between two endpoints. JWT are most commonly used for user authentication.
+When a user first logs into the application, a token is generated. This token contains a special signature that validates the token as one issued by the system. This token is issued on every route to verify the user's authentication.
+The JWT consists of 3 strings separated by period. The 3 of them are the header, payload and the signature.
+The first part contains metadata about the token in json format.
+The payload stores the information of our request.body.
+The last part is the signature, which is a message authentication code that is used to verify the token was not modified by an outsider.
+
+In our app, after using bcrypt to store the password, we will then generate a JWT token based on the user's input using the jwt.sign method.
+
+***payload***: object to store as payload of token (it could be the username for an authenticated user).  
+***secret-key***: secret string used to “sign” token.  
+***jwt-options***: is optional object of settings for making the token (such as expiration)/
+
+This sign method will return a string which will be used to access routes that need authentication.
+
+This app also uses shcemas to specify the data that we expect to receive from a request.
+
+This app does not have a view, so we test it in the browser. I have set up a collection of requests on postman where I can show you the different routes that you can use with this app.
+
+
+
 
