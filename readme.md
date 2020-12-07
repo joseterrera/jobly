@@ -671,10 +671,15 @@ In our app, after using bcrypt to store the password, we will then generate a JW
 ***jwt-options***: is optional object of settings for making the token (such as expiration)/
 
 This sign method will return a string which will be used to access routes that need authentication.
+We have a helper function createToken, which will later be used inside our routes when we login or when we create a new user.
 
-This app also uses shcemas to specify the data that we expect to receive from a request.
+This app also uses schemas to specify the data that we expect to receive from a request. We have a directory where all schemas are specified, and we import them inside our routes.
 
 This app does not have a view, so we test it in the browser. I have set up a collection of requests on postman where I can show you the different routes that you can use with this app.
+
+
+We have a helpers directories with some function that will be used inside our models and routes. We made mention of createToken. There is also partialUpdate.js.
+
 
 
 
