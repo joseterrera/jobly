@@ -651,43 +651,7 @@ implementation inside of models, for instance:
 
 ```
 
-Jobly is a linkedin like app where users can access different features depending on their admin status. Basically, if you are admin you can add new jobs, make changes, and if you are not admin, you can stil view info, but the abilities are more limited.
-This app is created using express with different libraries.
-We use pg, which a node package to connect and execute sql queries from  node. To prevent sql injection we santize our inputs by using parametrized queries. There are examples of these inside of our models. 
 
-We also use bcrypt which is a hashing algorithm for our passwords, where we store our password hashed. In our app, the request.body will include a username and a password. Using bcrypt, we saved the hashed password to our database. The bcrypt express library also has a compare method that compares the password in the database to the database in the request.body. if it is valid, then user can be authenticated. This methods we can find them inside of our models in user.js.
-
-We also use JWT or json webtojen which is a method that can securely transmit data between two endpoints. JWT are most commonly used for user authentication.
-When a user first logs into the application, a token is generated. This token contains a special signature that validates the token as one issued by the system. This token is issued on every route to verify the user's authentication.
-The JWT consists of 3 strings separated by period. The 3 of them are the header, payload and the signature.
-The first part contains metadata about the token in json format.
-The payload stores the information of our request.body.
-The last part is the signature, which is a message authentication code that is used to verify the token was not modified by an outsider.
-
-In our app, after using bcrypt to store the password, we will then generate a JWT token based on the user's input using the jwt.sign method.
-
-***payload***: object to store as payload of token (it could be the username for an authenticated user).  
-***secret-key***: secret string used to “sign” token.  
-***jwt-options***: is optional object of settings for making the token (such as expiration)/
-
-This sign method will return a string which will be used to access routes that need authentication.
-We have a helper function createToken, which will later be used inside our routes when we login or when we create a new user.
-
-This app also uses schemas to specify the data that we expect to receive from a request. We have a directory where all schemas are specified, and we import them inside our routes.
-
-This app does not have a view, so we test it in the browser. I have set up a collection of requests on postman where I can show you the different routes that you can use with this app.
-
-
-We have a helpers directories with some function that will be used inside our models and routes. We made mention of createToken. There is also partialUpdate.js.
-When we patch some value inside our companies, or jobs, we are making a partial update. We need an sql function to help us with this. This function is first defined as a helper, which will then be used as an update method inside of our models. This update method, will then be used in our routes, where for example for companies we will specify the company handle and what is in the req.body and those values will be updated unless they are not allowed. Also with the help of our schema, we can determine if the data in the req.body is the right kind of data for this request.
-
-In this app, we have a middleware where we define requirements for each route.
-
-authrequired. This middleware will be used at a very minimum in many routes where users can view other people's info without being an admin.
-
-A step above would be admin required, where the user has to provide a token that is an admin token.
-
-ANother middleware would be ensureCorrectUser which would be used to patch and delete, but would ensure that it is user matching before allowing those actions.
 
 
 
