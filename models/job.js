@@ -17,12 +17,12 @@ class Job {
 
     if (data.min_salary) {
       queryValues.push(+data.min_salary);
-      whereExpressions.push(`min_salary >= $${queryValues.length}`);
+      whereExpressions.push(`salary >= $${queryValues.length}`);
     }
 
     if (data.min_equity) {
       queryValues.push(+data.min_equity);
-      whereExpressions.push(`min_equity >= $${queryValues.length}`);
+      whereExpressions.push(`equity >= $${queryValues.length}`);
     }
 
     if (data.search) {

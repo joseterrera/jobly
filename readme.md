@@ -1,6 +1,19 @@
 ### Jobly
 
-This application has similar functionality to linkedin but at a smaller scale using express, json schema, jsonwebtoken, and pg. Some of these are explained below.
+Jobly is a linkedin like app where users can access different features depending on their admin status. Basically, if you are admin you can add new jobs, make changes, and if you are not admin, you can stil view info, but the abilities are more limited.
+
+This app does not have a view, so we can test it using insomnia or postman. I add some sample routes on this repo below, and the tests also give good clues on how to make those routes. 
+
+We have a helpers directories with some function that will be used inside our models and routes. 
+
+Partialupdate: When we patch some value inside our companies, or jobs, we are making a partial update. We need an sql function to help us with this. This function is first defined as a helper, which will then be used as an update method inside of our models. This update method, will then be used in our routes, where for example for companies we will specify the company handle and what is in the req.body and those values will be updated unless they are not allowed. Also with the help of our schema, we can determine if the data in the req.body is the right kind of data for this request.
+
+In this app, we have a middleware where we define requirements for each route:  
+authrequired. This middleware will be used at a very minimum in many routes where users can view other people's info without being an admin.  
+
+A step above would be admin required, where the user has to provide a token that is an admin token.
+
+Another middleware would be ensureCorrectUser which would be used to patch and delete, but would ensure that it is user matching before allowing those actions.
 
 ### To Run The Application
 

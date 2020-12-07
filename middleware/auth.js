@@ -59,7 +59,7 @@ function adminRequired(req, res, next) {
  *
  */
 
-function ensureCorrectUser(req, res, next) {
+function F(req, res, next) {
   try {
     const tokenStr = req.body._token;
 
